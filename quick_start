@@ -1,0 +1,63 @@
+Quick Start Guide
+
+DIRECTORY STRUCTURE
+bin/	Place to install all runtime required files, including executables, shared objects, modules, fonts, and configurations.
+ga/	Source codes for GamingAnywhere core, modules, servers, and client.
+deps.posix/	Dependencies for POSIX platforms, including libraries and headers (by default empty, files are built from sources in 'deps.src').
+deps.win32/	Dependencies for Win32 platform, including libraries and headers (by default empty, files are installed from packages in 'deps.pkgs.win32').
+deps.src/	Source files of dependencies. You will need these files to build dependencies, which is mandatory for POSIX-like platforms (Linux and Mac OS X).
+deps.pkgs.win32/	Pre-built dependencies for Win32 platform. You can install all the dependencies for Win32 by running the "install.cmd" command in this directory (by default installed into 'deps.win32' directory).
+ 
+ 
+HOW TO BUILD on supported POSIX platforms (Linux and Mac OS X)
+Prerequisites:
+- GNU C++ compiler
+- pkg-config
+- libX11, libXext, libXtst, libfreetype6, libgl1-mesa, libglu1-mesa, libpulse, libasound2 (both binaries and development files)
+Steps:
+Edit the 'env-setup' script to ensure that GADEPS points to a correct directory. It should be an absolute path to gaminganywhere/deps.posix directory.
+Merge environment variables from 'env-setup' by using '.' or 'source' command.
+Build dependencies by running 'make' in the 'deps.src' directory.
+Build GA by running 'make all' command in the 'ga' directory.
+Install GA by running 'make install' command in the 'ga' directory. All the generated files will be installed into 'bin' directory.
+HOW TO BUILD on Win32 platform
+Prerequisites:
+- Visual Studio (C++) 2010 (we did not test it with other versions)
+- DirectX SDK (we use the version released in June, 2010)
+- Microsoft SDK (we have version 7.0 installed on Windows 7, it may be installed with VS 2010)
+Steps:
+Install dependencies by running 'install.cmd' in 'deps.pkgs.win32' directory.
+Install DirectX SDK into 'C:\Microsoft DirectX SDK'. If you install in other places, modify the SDK paths used in ga/module/vsource-desktop/NMakefile.d3d, and ga/server/event-driven/NMakefile (if applicable).
+Open Visual C++ command line prompt
+Build GA by running 'nmake /f NMakefile all' command in the 'ga' directory.
+Install GA by running 'nmake /f NMakefile install' command in the 'ga' directory. All the generated files will be installed into 'bin' directory.
+RUN GA SERVER and CLIENT
+Prerequisites:
+On Linux, you have to add 'deps.posix/lib' into system-wide ld.so search path. In addition, you have to modify 'bin/config/common/server-common.conf' and at least ensure that 'display' is set to an accessible X-Window desktop with XTEST extension enabled. The X-Window desktop can be a VNC or Xvfb desktop.
+On Windows, you have to place 'deps.win32/bin/*.dll' into system-wide DLL search path, or into the same directory of GA's executables, e.g., the 'bin' directory.
+Note that we have pre-installed all the required files in the 'bin' directory now.
+Run GA server in periodic (desktop capturing) mode
+     $ ga-server-periodic {config}
+     e.g., $ ga-server config/server.x264+mp3.conf
+
+The ga-server-periodic will stream the entire desktop to a client. If you plan to streaming only a (game) window, you can add the options:
+
+1) find-window-name = [window name], or
+2) find-window-class = [window class]
+
+into the configuration file. The ga-server-periodic will attempt to find the specified window, move the window to top-left corner of the desktop, and capture only the client area of the specified window.
+Run GA server in event-driven (game hooking) mode
+     $ ga-server-event-driven {config}
+     e.g., $ ga-server-event-driven config/d3dex.conf
+
+The ga-server-event-driven will load the (game) application specified in the configuration file. The application is specified by using the "game-dir" (optional) and the "game-exe" (mandatory) options. Therefore, a game should have its own dedicated configuration file.
+Run GA client
+     $ ga-client {config} rtsp://server-address:server-port/desktop
+     e.g., $ ga-client config/client.rel.conf rtsp://192.168.1.1:8554/desktop
+We have two default configurations for the client, both running with H.264 decoder and mp3 decoder:
+
+a) client.abs.conf - work with absolute position mouse pointer.
+b) client.rel.conf - work with relative position mouse pointer.
+
+Please note that you should prevent your firewall from filtering network ports used by GA. By default, GA uses TCP port 8554 for RTSP and TCP/UDP port 8555 for controller.
+ 
