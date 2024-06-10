@@ -1,0 +1,55 @@
+Guide on Configuration Files (*.conf)
+
+Core
+proto	RTP protocol
+base-object	RTSP object name (default: /desktop)
+title	RTSP object title
+server-port	RTSP server port
+Audio Settings
+audio-encoder	Audio encoder
+audio-decoder	Audio decoder
+audio-samplerate	Audio sampling rate
+audio-bitrate	Audio encoding rate
+audio-channels	Number of audio channels, must be greater than zero
+audio-codec-format	Codec data format of each audio sample, e.g., unsigned 8-bit and double
+audio-codec-channel-layout	Codec layout of the audio channels, e.g., mono, stereo
+audio-device-channel-layout	Device layout of the audio channels
+audio-device-format	Device data type of each audio sample
+audio-init-delay	Initial delay time before initializing audio subsystem, in mini-seconds
+Video Settings
+video-encoder	Video encoder
+video-decoder	Video decoder
+video-fps	Video frame rate
+video-renderer	Using hardware acceleration for video rendering or not
+video-specific	Additional parameters that will be passed to the video codec. This is an associative array. **A LOT OF** video parameters can be tuned. You may refer to help documents for ffmpeg or codec-specific parameters. Below only list some common parameters.
+video-specific[b]	The desired bitrate for video encoder (unit: bps)
+video-specific[refs]	Number of reference frames to consider for motion compensation
+video-specific[me_method]	Motion estimation algorithms, can be zero, full, epzs, esa, dia, log, phods, X1, hex, umh, and iter
+video-specific[me_range]	Search range of motion vectors
+video-specific[intra_referesh]	Use periodic insertions of intra blocks instead of keyframes
+video-specific[g]	Set the group of picture size
+video-specific[slices]	Number of slices, used in parallelized encoding
+video-specific[threads]	Thread count
+filter-source-pixelformat	The video source pixel format, can be RGBA or BGRA.
+Controller Settings
+control-enabled	Enable controller or not
+control-port	TCP/UDP port number for control messages
+control-proto	Transport protocol for transmitting control messages
+control-relative-mouse-mode	Use absolute or relative coordinates to set mouse cursor positions on the server
+GA-Server-Periodic/GA-Server-Event-Driven Settings
+find-window-name	The name of the window to be captured
+find-window-class	The title of the window to be captured (Windows only)
+display	The X Window DISPLAY to capture (X Window environment only)
+enable-audio	Enable or disable audio modules
+logfile	Log GA outputs into a specified file
+GA-Server-Event-Driven Settings
+game-exe	The absolute path pointing to the game executable
+game-dir	The working directory for the game to be invoked (used only when a certain working directory is required)
+game-resolution	The screen resolution to be captured (used only when automatic resolution determination is not working)
+hook-type	The function hook to be used. On Windows, it can be d9, d10, d10.1, d11, dxgi, and sdl. On Linux, it can only be sdl now.
+hook-method	Reserved
+hook-experimental	Enable experimental codes in hook functions
+enable-server-rate-control	Enable a token bucket rate controller to throttle video frame rate
+server-max-tokens	Parameter for the token bucket rate controller
+server-num-token-to-fill	Parameter for the token bucket rate controller
+server-token-fill-interval	Parameter for the token bucket rate controller (unit: micro-seconds)
