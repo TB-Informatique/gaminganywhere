@@ -1,0 +1,32 @@
+Frequently Asked Questions
+Question
+After running the GA server, the game briefly showed up and disappeared right away. Why?
+Answer	It is usually because the audio source module is not able to be initialized successfully. You may try the following solutions:
+1) Check your sound card configuration. GA server works with 16-bit stereo audio, 44.1 kHz sampling rate in some configurations.
+2) Delay the initialization of the audio module with the "audio-init-delay" option.
+3) Disable the audio module completely with the "enable-audio" option.
+Question
+My GA client cannot connect to the GA server. What is happening?
+Answer	You need to make sure that the machine running GA server gets an accessible IP address. You also want to turn off Windows' firewall and check if both TCP and UDP packets can reach each other.
+Question
+What is the difference between client.abs.conf and client.rel.conf?
+Answer	These two files are both client configuration files, but for different games. For games employing absolute coordinates, please use client.abs.conf. For games using relative coordinates, please use client.rel.conf.
+Question
+GA client traps my mouse cursor! How can I focus on other applications?
+Answer	Please use the hotkey "~" to force GA client releasing the mouse cursor.
+Question
+I find a long latency when playing games via GA, what can I do?
+Answer	For best performance, please ensure both the server and client connect via wired Ethernet (i.e., WIFI would seriously degrade the network transmission performance). You may also want to change the video-specific[b] parameter to adjust the video bitrate, which was set to 3 Mbps by default (see Configuration File Guide), to a lower value.
+Question
+I run GA binaries on Windows and get a compliant that MSVCP100.DLL and MSVCR100.DLL cannot be found.
+Answer	We compiled GA Windows binaries using Microsoft Visual C++ 2010. You may need to install Microsoft Visual C++ 2010 Redistributable Package (x86) to ensure that all required DLLs are installed.
+Question
+The ga-server-periodic does not capture a correct display size.
+Answer	The ga-server-periodic is not a DPI-awareness application. You have to configure your screen DPI to 100% (by default 96 dpi). Otherwise, GA will read an incorrect screen size.
+Question
+I feel the game quality on the client is not good.
+Answer	For compatibility issues, we use software renderer on the GA client since version 0.7.3. However, the rendered image quality is not as good as that rendered by using hardware renderer. You may enable hardware renderer at the client by commenting out "video-renderer = software" in a client configuration. If you hardware is not compatible with GA's hardware renderer, you may get a blank or a distorted screen.
+ 
+ 
+Feedback
+We need your helps and participate to improve GamingAnywhere. Please contact us and provide our your feedback.
